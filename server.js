@@ -6,10 +6,10 @@ const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 //app.use(express.static(__dirname + '/UI.html'));
 //console.log("Directory----"+__dirname);
-const htmlFilePath = 'UI.html';
+
 
 app.get('/', (req, res) => {
-    res.sendFile(htmlFilePath);
+    res.sendFile('UI.html', { root: __dirname });
 });
 
 app.post("/upload_files", upload.array("files"), uploadFiles);
