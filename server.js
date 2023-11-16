@@ -3,7 +3,7 @@ const fs = require('fs');
 const app = express();
 app.use(express.json());
 const multer = require("multer");
-app.use(express.static(__dirname + '/public'));
+app.use(express.static("public"));
 const upload = multer({ dest: "public/uploads/" });
 //app.use(express.static(__dirname + '/UI.html'));
 //console.log("Directory----"+__dirname);
