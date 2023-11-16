@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<head>
+
+    <title>File Upload</title>
+   
+    <style>
+        body {
+    background-color: rgb(6, 26, 27);
+}
+* {
+    box-sizing: border-box;
+}
+.container {
+    max-width: 500px;
+    margin: 60px auto;
+}
+.container h1 {
+    text-align: center;
+    color: white;
+}
+form {
+    background-color: white;
+    padding: 30px;
+}
+form .input-group {
+    margin-bottom: 15px;
+}
+form label {
+    display: block;
+    margin-bottom: 10px;
+}
+form input {
+    padding: 12px 20px;
+    width: 100%;
+    border: 1px solid #ccc;
+}
+.submit-btn {
+    width: 100%;
+    border: none;
+    background: rgb(37, 83, 3);
+    font-size: 18px;
+    color: white;
+    border-radius: 3px;
+    padding: 20px;
+    text-align: center;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>File Upload</h1>
+        <form id='form' action="/upload_files" method="post" enctype="multipart/form-data">
+            <div class="input-group">
+                <label for='name'>Your name</label>
+                <input name='name' id='name' placeholder="Enter your name" />
+            </div>
+            <div class="input-group">
+                <label for='files'>Select files</label>
+                <input id='files' type="file" multiple>
+            </div>
+            <button class="submit-btn" type='submit'>Upload</button>
+            <div id="message"></div>
+    <div id="fileList"></div>
+        </form>
+    </div>
+    <script >
+    const form = document.getElementById("form");
+    const messageDiv = document.getElementById('message');
+    const fileListDiv = document.getElementById('fileList');
+        form.addEventListener("submit", submitForm);
+        
+        function submitForm(e) {
+            e.preventDefault();
+            const name = document.getElementById("name");
+            const files = document.getElementById("files");
+            const formData = new FormData();
+            formData.append("name", name.value);
+            for(let i =0; i < files.files.length; i++) {
+                    formData.append("files", files.files[i]);
+            }
+            fetch("/upload_files", {
+                method: 'POST',
+                body: formData,
+                })
+                .then((res) =>  res.json())
+                .then(data => {
+                    console.log(data); // Log the response data
+                    
+                    // Check for successful upload
+                    if (data.message === "1") {
+                        messageDiv.textContent = "Files uploaded successfully!";
+                    } else {
+                        messageDiv.textContent = "Error: " + data.message;
+                    }
+                        //updateFileList(data.uploadedFiles);
+                    })
+                .catch((err) => ("Error occured", err));
+        }
+       
+        
+        
+        </script>
+</body>
+</html>
