@@ -3,13 +3,14 @@ const fs = require('fs');
 const app = express();
 app.use(express.json());
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+app.use(express.static(__dirname + '/public'));
+const upload = multer({ dest: "public/uploads/" });
 //app.use(express.static(__dirname + '/UI.html'));
 //console.log("Directory----"+__dirname);
 
 
 app.get('/', (req, res) => {
-    res.sendFile('UI.html', { root: __dirname });
+    res.sendFile('public/UI.html', { root: __dirname });
 });
 
 app.post("/upload_files", upload.array("files"), uploadFiles);
